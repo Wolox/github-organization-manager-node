@@ -1,10 +1,11 @@
-// const controller = require('./controllers/controller');
+const { createRepository } = require('./controllers/github');
 const { healthCheck } = require('./controllers/healthCheck');
 const checkJwt = require('./middlewares/checkAuth');
 const { adminScope } = require('./middlewares/checkScope');
 
 exports.init = app => {
   app.get('/health', healthCheck);
+  app.post('/create_repository', createRepository);
 
   app.get('/api/public', (req, res) => {
     res.json({

@@ -18,7 +18,6 @@
     "precommit": "npm run lint-diff",
     "outdated": "npm outdated --depth 0",
     "pretest": "npm run lint",
-    "prestart": "npm run lint",
     "start": "nodemon --inspect server.js"
   },
   "cacheDirectories": [
@@ -60,6 +59,7 @@
     }
   },
   "dependencies": {
+    "@octokit/rest": "^16.28.7",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",
     "express": "^4.16.2",

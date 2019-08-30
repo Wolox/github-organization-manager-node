@@ -42,6 +42,11 @@ const config = {
       apiDate: process.env.API_DATE || 'X-API-Date',
       packageVersion: process.env.PACKAGE_VERSION || 'X-Package-Version',
       nodeVersion: process.env.NODE_VERSION || 'X-Node-Version'
+    },
+    github: {
+      woloxAdminToken: process.env.WOLOX_ADMIN_TOKEN,
+      woloxOrganizationName: process.env.WOLOX_ORGANIZATION_NAME || 'Wolox',
+      tlsTeamId: process.env.TECHNICAL_LEADERS_TEAM_ID
     }
   }
 };
