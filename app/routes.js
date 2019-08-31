@@ -5,7 +5,7 @@ const {
   addCodeownersToRepo,
   addUserToOrganization
 } = require('./controllers/github');
-const { getTeams, createTeam, addMembersToTeam } = require('./controllers/teams');
+const { getTeams, createTeam, addMembersToTeam, deleteTeam } = require('./controllers/teams');
 const { healthCheck } = require('./controllers/healthCheck');
 const { getUsersHandler, setUserMaintainerHandler, setUserAdminHandler } = require('./controllers/users.js');
 const checkJwt = require('./middlewares/checkAuth');
@@ -25,6 +25,7 @@ exports.init = app => {
   app.get('/teams', getTeams);
   app.post('/teams', createTeam);
   app.post('/teams/:teamId/members', addMembersToTeam);
+  app.delete('/teams/:teamId', deleteTeam);
 
   app.get('/users', checkJwt, getUsersHandler);
   app.post('/users/:userId/maintainer', checkJwt, setUserMaintainerHandler);
