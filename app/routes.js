@@ -7,6 +7,7 @@ const {
 } = require('./controllers/github');
 const { getTeams, createTeam, addMembersToTeam } = require('./controllers/teams');
 const { healthCheck } = require('./controllers/healthCheck');
+const { getUsersHandler, setUserMaintainerHandler, setUserAdminHandler } = require('./controllers/users.js');
 const checkJwt = require('./middlewares/checkAuth');
 const { adminScope } = require('./middlewares/checkScope');
 
@@ -24,6 +25,10 @@ exports.init = app => {
   app.get('/teams', getTeams);
   app.post('/teams', createTeam);
   app.post('/teams/:teamId/members', addMembersToTeam);
+
+  app.get('/users', checkJwt, getUsersHandler);
+  app.post('/users/:userId/maintainer', checkJwt, setUserMaintainerHandler);
+  app.post('/users/:userId/admin', checkJwt, setUserAdminHandler);
 
   app.get('/api/public', (req, res) => {
     res.json({
