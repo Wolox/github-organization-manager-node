@@ -1,10 +1,5 @@
-const Octokit = require('@octokit/rest');
-const { github: githubConfig } = require('../../config').common;
-
-const org = new Octokit({
-  type: 'oauth',
-  auth: githubConfig.woloxAdminToken
-});
+const org = require('./index');
+const { github: githubConfig } = require('../../../config').common;
 
 const createRepository = ({ repositoryName, isPrivate }) =>
   org.repos.createInOrg({

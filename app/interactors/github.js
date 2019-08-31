@@ -1,12 +1,15 @@
+const { 
+    createRepository: create,
+    addDefaultTeamsToRepository } = require('../services/github/repositories');
 const {
-  createRepository: create,
-  addDefaultTeamsToRepository,
-  getTeams: getTeamsGithub,
-  createTeam: createTeamGithub
-} = require('../services/github');
+    getTeams: getTeamsGithub,
+    createTeam: createTeamGithub } = require('../services/github/teams');
 
 const createRepository = ({ repositoryName, isPrivate }) =>
-  create({ repositoryName, isPrivate }).then(() => addDefaultTeamsToRepository({ repositoryName }));
+  create({ repositoryName, isPrivate })
+  .then(repository => addDefaultTeamsToRepository({ repositoryName })
+  .then(() => repository)
+  );
 
 const getTeams = () => getTeamsGithub().then(resp => ({ teams: resp.data }));
 const createTeam = name => createTeamGithub(name).then(resp => ({ teams: resp.data }));
