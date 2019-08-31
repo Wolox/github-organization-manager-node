@@ -24,15 +24,4 @@ const addDefaultTeamsToRepository = ({ repositoryName }) =>
     addTeamToRepository({ teamId: githubConfig.qualityTeamId, repositoryName })
   ]);
 
-const getTeams = () =>
-  org.teams.list({
-    org: githubConfig.woloxOrganizationName
-  });
-
-const createTeam = name =>
-  org.teams.create({
-    org: githubConfig.woloxOrganizationName,
-    name
-  });
-
-module.exports = { createRepository, addDefaultTeamsToRepository, getTeams, createTeam };
+module.exports = { createRepository, addDefaultTeamsToRepository };
