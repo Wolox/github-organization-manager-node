@@ -10,13 +10,22 @@ const {
 const { createRepositorySerializer } = require('../serializers/respositories');
 
 const createRepository = (req, res) =>
-  create({
-    repositoryName: `${req.body.repositoryName}-${req.body.tech}`,
-    isPrivate: req.body.isPrivate
-  }).then(resp => {
-    const response = createRepositorySerializer(resp);
-    return res.status(response.statusCode).send(response.body);
-  });
+  req.body.techs
+    ? Promise.all(
+      req.body.techs.map(tech =>
+        create({
+          repositoryName: `${req.body.repositoryName}-${tech}`,
+          isPrivate: req.body.isPrivate
+        })
+      )
+    ).then(() => res.status(201).end())
+    : create({
+      repositoryName: `${req.body.repositoryName}`,
+      isPrivate: req.body.isPrivate
+    }).then(resp => {
+      const response = createRepositorySerializer(resp);
+      return res.status(response.statusCode).send(response.body);
+    });
 
 const addTeamToRepo = (req, res) =>
   addTeamToRepoGithub(req.body.teamId, req.params.repoName).then(resp => res.send(resp));
