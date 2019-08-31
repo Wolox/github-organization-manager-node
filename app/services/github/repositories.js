@@ -1,5 +1,7 @@
 const org = require('./index');
 const { github: githubConfig } = require('../../../config').common;
+const { MASTER_BRANCH } = require('./branches');
+const { createCommit } = require('./commits');
 
 const getRepositories = ({ pageNumber, typeOfRepos }) =>
   org.repos.list({
@@ -38,10 +40,26 @@ const addMemberToTeam = ({ teamId, username }) =>
     username
   });
 
+const addCodeownersToRepo = ({ repositoryName, codeowners }) => {
+  const codeownersFileContent = `*       ${codeowners.map(co => `@${co}`).join(' ')}`;
+  const changes = {
+    files: {
+      CODEOWNERS: codeownersFileContent
+    },
+    commit: 'Added CODEOWNERS file'
+  };
+  return createCommit({
+    repositoryName,
+    base: MASTER_BRANCH.branchName,
+    changes
+  });
+};
+
 module.exports = {
   createRepository,
   getRepositories,
   addDefaultTeamsToRepository,
   addTeamToRepository,
-  addMemberToTeam
+  addMemberToTeam,
+  addCodeownersToRepo
 };

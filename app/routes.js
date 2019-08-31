@@ -1,4 +1,10 @@
-const { createRepository, addTeamToRepo, getRepositories } = require('./controllers/github');
+const {
+  createRepository,
+  addTeamToRepo,
+  getRepositories,
+  addCodeownersToRepo,
+  addUserToOrganization
+} = require('./controllers/github');
 const { getTeams, createTeam, addMemberToTeam } = require('./controllers/teams');
 const { healthCheck } = require('./controllers/healthCheck');
 const checkJwt = require('./middlewares/checkAuth');
@@ -9,8 +15,11 @@ exports.init = app => {
 
   app.get('/repositories', getRepositories);
   app.post('/repositories', createRepository);
+  app.post('/repositories/:username', addUserToOrganization);
 
   app.post('/repositories/:repoName/teams', addTeamToRepo);
+
+  app.post('/repositories/:repoName/codeowners', addCodeownersToRepo);
 
   app.get('/teams', checkJwt, getTeams);
   app.post('/teams', checkJwt, createTeam);
