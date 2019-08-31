@@ -63,6 +63,7 @@
     "@octokit/rest": "^16.28.7",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",
+    "cors": "^2.8.5",
     "dotenv": "^5.0.1",
     "express": "^4.16.2",
     "express-jwt": "^5.3.1",

@@ -2,6 +2,7 @@ const { expressMiddleware, expressRequestIdMiddleware } = require('express-wolox
 const express = require('express');
 const bodyParser = require('body-parser');
 const swaggerUi = require('swagger-ui-express');
+const cors = require('cors');
 const config = require('./config');
 const routes = require('./app/routes');
 const errors = require('./app/middlewares/errors');
@@ -29,6 +30,7 @@ app.use(bodyParser.json(bodyParserJsonConfig()));
 app.use(bodyParser.urlencoded(bodyParserUrlencodedConfig()));
 app.use(expressRequestIdMiddleware({ obfuscateBody: false }));
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(documentation));
+app.use(cors());
 
 if (!config.isTesting) app.use(expressMiddleware({ loggerFn: logger.info }));
 
