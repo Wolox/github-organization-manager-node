@@ -1,9 +1,12 @@
 const org = require('./index');
 const { github: githubConfig } = require('../../../config').common;
 
-const getRepositories = () =>
+const getRepositories = ({ pageNumber, typeOfRepos }) =>
   org.repos.list({
-    org: githubConfig.woloxOrganizationName
+    org: githubConfig.woloxOrganizationName,
+    per_page: '100',
+    page: pageNumber,
+    type: typeOfRepos
   });
 
 const createRepository = ({ repositoryName, isPrivate }) =>

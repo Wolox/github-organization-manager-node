@@ -2,7 +2,6 @@ const {
   createRepository: create,
   addDefaultTeamsToRepository,
   addTeamToRepository,
-  getRepositories: getRepositoriesGithub,
   addMemberToTeam: addMemberToTeamGithub
 } = require('../services/github/repositories');
 const { getTeams: getTeamsGithub, createTeam: createTeamGithub } = require('../services/github/teams');
@@ -13,6 +12,7 @@ const {
   DEVELOPMENT_BRANCH,
   STAGE_BRANCH
 } = require('../services/github/branches');
+const { getAllRepositories } = require('../helpers/listAllReposHelper');
 
 const execDefaultRepositoryActions = ({ repositoryName }) =>
   Promise.all([
@@ -27,7 +27,7 @@ const createRepository = ({ repositoryName, isPrivate }) =>
     execDefaultRepositoryActions({ repositoryName }).then(() => repository)
   );
 
-const getRepositories = () => getRepositoriesGithub().then(resp => ({ repositories: resp.data }));
+const getRepositories = () => getAllRepositories().then(resp => resp);
 
 const getTeams = () => getTeamsGithub().then(resp => ({ teams: resp.data }));
 
