@@ -3,4 +3,6 @@ const createRepositorySerializer = response => ({
   body: response.data
 });
 
-module.exports = { createRepositorySerializer };
+const getRepositoriesSerializer = response => response.data.map(repo => repo.name);
+
+module.exports = { createRepositorySerializer, getRepositoriesSerializer };

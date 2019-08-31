@@ -2,7 +2,6 @@ const {
   createRepository,
   addTeamToRepo,
   getRepositories,
-  getRepositoriesCount,
   addCodeownersToRepo,
   addUserToOrganization
 } = require('./controllers/github');
@@ -15,7 +14,6 @@ exports.init = app => {
   app.get('/health', healthCheck);
 
   app.get('/repositories', getRepositories);
-  app.get('/repositoriesCount', getRepositoriesCount);
   app.post('/repositories', createRepository);
   app.post('/repositories/:username', addUserToOrganization);
 

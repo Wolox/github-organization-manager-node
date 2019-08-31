@@ -3,10 +3,10 @@ const { github: githubConfig } = require('../../../config').common;
 const { MASTER_BRANCH } = require('./branches');
 const { createCommit } = require('./commits');
 
-const getRepositories = ({ pageNumber, typeOfRepos }) =>
+const getRepositories = ({ pageNumber, typeOfRepos, perPage }) =>
   org.repos.list({
     org: githubConfig.woloxOrganizationName,
-    per_page: '100',
+    per_page: perPage,
     page: pageNumber,
     type: typeOfRepos
   });
