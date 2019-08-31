@@ -11,7 +11,7 @@ const { createRepositorySerializer, getRepositoriesSerializer } = require('../se
 const createRepository = (req, res) =>
   req.body.techs
     ? Promise.all(
-      req.body.techs.map(tech =>
+        req.body.techs.map(tech =>
         create({
           repositoryName: `${req.body.repositoryName}-${tech}`,
           isPrivate: req.body.isPrivate
