@@ -23,7 +23,7 @@ const countRepositories = async ({ type }) => {
 
 const createRepository = ({ repositoryName, isPrivate }) =>
   countRepositories({ type: 'private' }).then(count =>
-    count < 0
+    count < 125
       ? org.repos.createInOrg({
           auto_init: true,
         org: githubConfig.woloxOrganizationName,
