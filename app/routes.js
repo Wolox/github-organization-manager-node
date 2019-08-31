@@ -5,7 +5,7 @@ const {
   addCodeownersToRepo,
   addUserToOrganization
 } = require('./controllers/github');
-const { getTeams, createTeam, addMemberToTeam } = require('./controllers/teams');
+const { getTeams, createTeam, addMembersToTeam } = require('./controllers/teams');
 const { healthCheck } = require('./controllers/healthCheck');
 const checkJwt = require('./middlewares/checkAuth');
 const { adminScope } = require('./middlewares/checkScope');
@@ -23,7 +23,7 @@ exports.init = app => {
 
   app.get('/teams', getTeams);
   app.post('/teams', createTeam);
-  app.post('/teams/:teamId/members', addMemberToTeam);
+  app.post('/teams/:teamId/members', addMembersToTeam);
 
   app.get('/api/public', (req, res) => {
     res.json({
