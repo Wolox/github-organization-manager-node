@@ -18,19 +18,19 @@ const DEVELOPMENT_BRANCH = {
 
 const MASTER_BRANCH = {
   branchName: 'master',
-  needCodeOwnerApprove: false,
-  approvesQuantityToMerge: 2
+  needCodeOwnerApprove: true,
+  approvesQuantityToMerge: 1
 };
 
-const getBranchProtections = ({ needCodeOwnerApprove, approvesQuantityToMerge }) => ({
+const getBranchProtections = ({ needCodeOwnerApprove }) => ({
   required_status_checks: {
     contexts: [],
     strict: true
   },
   required_pull_request_reviews: {
     dismiss_stale_reviews: true,
-    require_code_owner_reviews: needCodeOwnerApprove,
-    required_approving_review_count: approvesQuantityToMerge
+    require_code_owner_reviews: needCodeOwnerApprove
+    // required_approving_review_count: approvesQuantityToMerge TODO this is not working in github api
   },
   enforce_admins: false,
   restrictions: null
