@@ -1,16 +1,20 @@
-const { createRepository } = require('./controllers/github');
-const { getTeams, createTeam } = require('./controllers/teams');
+const { createRepository, addTeamToRepo, getRepositories } = require('./controllers/github');
+const { getTeams, createTeam, addMemberToTeam } = require('./controllers/teams');
 const { healthCheck } = require('./controllers/healthCheck');
 const checkJwt = require('./middlewares/checkAuth');
 const { adminScope } = require('./middlewares/checkScope');
 
 exports.init = app => {
   app.get('/health', healthCheck);
-  app.post('/create_repository', createRepository);
+
+  app.get('/repositories', getRepositories);
+  app.post('/repositories', createRepository);
+
+  app.post('/repositories/:repoName/teams', addTeamToRepo);
 
   app.get('/teams', checkJwt, getTeams);
   app.post('/teams', checkJwt, createTeam);
-  // app.post('/api/teams/:teamId/members/:username', checkJwt, teams.addMemberToTeam);
+  app.post('/teams/:teamId/members', checkJwt, addMemberToTeam);
 
   app.get('/api/public', (req, res) => {
     res.json({

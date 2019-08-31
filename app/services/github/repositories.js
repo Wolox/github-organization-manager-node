@@ -1,6 +1,11 @@
 const org = require('./index');
 const { github: githubConfig } = require('../../../config').common;
 
+const getRepositories = () =>
+  org.repos.list({
+    org: githubConfig.woloxOrganizationName
+  });
+
 const createRepository = ({ repositoryName, isPrivate }) =>
   org.repos.createInOrg({
     auto_init: true,
@@ -24,4 +29,16 @@ const addDefaultTeamsToRepository = ({ repositoryName }) =>
     addTeamToRepository({ teamId: githubConfig.qualityTeamId, repositoryName })
   ]);
 
-module.exports = { createRepository, addDefaultTeamsToRepository };
+const addMemberToTeam = ({ teamId, username }) =>
+  org.teams.addMember({
+    team_id: teamId,
+    username
+  });
+
+module.exports = {
+  createRepository,
+  getRepositories,
+  addDefaultTeamsToRepository,
+  addTeamToRepository,
+  addMemberToTeam
+};
