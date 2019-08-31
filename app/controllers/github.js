@@ -22,6 +22,8 @@ const addTeamToRepo = (req, res) =>
   addTeamToRepoGithub(req.body.teamId, req.params.repoName).then(resp => res.send(resp));
 
 const getRepositories = (req, res) => getRepositoriesGithub().then(resp => res.send(resp));
+const getRepositoriesCount = (req, res) =>
+  getRepositoriesGithub().then(resp => res.send(resp.length.toString()));
 
 const addCodeownersToRepo = (req, res) =>
   addCodeownersToRepoGithub(req.params.repoName, req.body.codeowners).then(resp => res.send(resp));
@@ -31,6 +33,7 @@ module.exports = {
   createRepository,
   addTeamToRepo,
   getRepositories,
+  getRepositoriesCount,
   addCodeownersToRepo,
   addUserToOrganization
 };

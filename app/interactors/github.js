@@ -2,7 +2,6 @@ const {
   createRepository: create,
   addDefaultTeamsToRepository,
   addTeamToRepository,
-  // getRepositories,
   addMemberToTeam: addMemberToTeamGithub,
   addCodeownersToRepo: addCodeownersToRepoGithub
 } = require('../services/github/repositories');
