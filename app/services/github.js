@@ -14,12 +14,19 @@ const createRepository = ({ repositoryName, isPrivate }) =>
     private: isPrivate
   });
 
-const addDefaultTeamsToRepository = ({ repositoryName }) =>
+const addTeamToRepository = ({ teamId, repositoryName }) =>
   org.teams.addOrUpdateRepo({
-    team_id: githubConfig.tlsTeamId,
+    team_id: teamId,
     owner: githubConfig.woloxOrganizationName,
     repo: repositoryName,
     permission: 'admin'
   });
+
+const addDefaultTeamsToRepository = ({ repositoryName }) =>
+  Promise.all([
+    addTeamToRepository({ teamId: githubConfig.tlsTeamId, repositoryName }),
+    addTeamToRepository({ teamId: githubConfig.botsTeamId, repositoryName }),
+    addTeamToRepository({ teamId: githubConfig.qualityTeamId, repositoryName })
+  ]);
 
 module.exports = { createRepository, addDefaultTeamsToRepository };
