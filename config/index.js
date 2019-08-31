@@ -46,7 +46,9 @@ const config = {
     github: {
       woloxAdminToken: process.env.WOLOX_ADMIN_TOKEN,
       woloxOrganizationName: process.env.WOLOX_ORGANIZATION_NAME || 'Wolox',
-      tlsTeamId: process.env.TECHNICAL_LEADERS_TEAM_ID
+      tlsTeamId: process.env.TECHNICAL_LEADERS_TEAM_ID,
+      botsTeamId: process.env.BOTS_TEAM_ID,
+      qualityTeamId: process.env.QUALITY_TEAM_ID
     }
   }
 };
