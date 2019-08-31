@@ -27,7 +27,7 @@ const app = express();
 // Client must send "Content-Type: application/json" header
 app.use(bodyParser.json(bodyParserJsonConfig()));
 app.use(bodyParser.urlencoded(bodyParserUrlencodedConfig()));
-app.use(expressRequestIdMiddleware());
+app.use(expressRequestIdMiddleware({ obfuscateBody: false }));
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(documentation));
 
 if (!config.isTesting) app.use(expressMiddleware({ loggerFn: logger.info }));

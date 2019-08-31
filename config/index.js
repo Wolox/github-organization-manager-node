@@ -48,7 +48,9 @@ const config = {
       woloxOrganizationName: process.env.WOLOX_ORGANIZATION_NAME || 'Wolox',
       tlsTeamId: process.env.TECHNICAL_LEADERS_TEAM_ID,
       botsTeamId: process.env.BOTS_TEAM_ID,
-      qualityTeamId: process.env.QUALITY_TEAM_ID
+      qualityTeamId: process.env.QUALITY_TEAM_ID,
+      developmentBranchName: process.env.DEVELOPMENT_BRANCH_NAME || 'development',
+      stageBranchName: process.env.STAGE_BRANACH_NAME || 'stage'
     }
   }
 };
