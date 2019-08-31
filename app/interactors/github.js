@@ -3,7 +3,8 @@ const {
   addDefaultTeamsToRepository,
   addTeamToRepository,
   getRepositories: getRepositoriesGithub,
-  addMemberToTeam: addMemberToTeamGithub
+  addMemberToTeam: addMemberToTeamGithub,
+  addCodeownersToRepo: addCodeownersToRepoGithub
 } = require('../services/github/repositories');
 const { getTeams: getTeamsGithub, createTeam: createTeamGithub } = require('../services/github/teams');
 const {
@@ -39,4 +40,15 @@ const addTeamToRepo = (teamId, repositoryName) =>
 const addMemberToTeam = (teamId, username) =>
   addMemberToTeamGithub({ teamId, username }).then(resp => resp.data);
 
-module.exports = { createRepository, getRepositories, getTeams, createTeam, addTeamToRepo, addMemberToTeam };
+const addCodeownersToRepo = (repositoryName, codeowners) =>
+  addCodeownersToRepoGithub({ repositoryName, codeowners }).then(resp => resp.data);
+
+module.exports = {
+  createRepository,
+  getRepositories,
+  getTeams,
+  createTeam,
+  addTeamToRepo,
+  addMemberToTeam,
+  addCodeownersToRepo
+};
