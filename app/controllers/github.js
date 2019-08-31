@@ -18,7 +18,7 @@ const createRepository = (req, res) =>
         })
       )
     )
-      .then(() => res.status(201).end())
+      .then(responses => res.status(200).send(responses))
       .catch(err => res.status(500).send(err))
     : create({
       repositoryName: `${req.body.repositoryName}`,
