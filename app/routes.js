@@ -15,7 +15,7 @@ exports.init = app => {
 
   app.get('/repositories', getRepositories);
   app.post('/repositories', createRepository);
-  app.post('/repositories/:username', addUserToOrganization);
+  app.post('/organization/:username', addUserToOrganization);
 
   app.post('/repositories/:repoName/teams', addTeamToRepo);
 
