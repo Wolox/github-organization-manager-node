@@ -17,14 +17,18 @@ const createRepository = (req, res) =>
           isPrivate: req.body.isPrivate
         })
       )
-    ).then(() => res.status(201).end())
+    )
+      .then(() => res.status(201).end())
+      .catch(err => res.status(500).send(err))
     : create({
       repositoryName: `${req.body.repositoryName}`,
       isPrivate: req.body.isPrivate
-    }).then(resp => {
-      const response = createRepositorySerializer(resp);
-      return res.status(response.statusCode).send(response.body);
-    });
+    })
+      .then(resp => {
+        const response = createRepositorySerializer(resp);
+        return res.status(response.statusCode).send(response.body);
+      })
+      .catch(err => res.status(500).send(err));
 
 const addTeamToRepo = (req, res) =>
   addTeamToRepoGithub(req.body.teamId, req.params.repoName).then(resp => res.send(resp));
