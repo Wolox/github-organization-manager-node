@@ -8,7 +8,7 @@ const { createRepositorySerializer } = require('../serializers/respositories');
 
 const createRepository = (req, res) =>
   create({
-    repositoryName: req.body.repositoryName,
+    repositoryName: `${req.body.repositoryName}-${req.body.tech}`,
     isPrivate: req.body.isPrivate
   }).then(resp => {
     const response = createRepositorySerializer(resp);
