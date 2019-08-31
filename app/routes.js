@@ -21,9 +21,9 @@ exports.init = app => {
 
   app.post('/repositories/:repoName/codeowners', addCodeownersToRepo);
 
-  app.get('/teams', checkJwt, getTeams);
-  app.post('/teams', checkJwt, createTeam);
-  app.post('/teams/:teamId/members', checkJwt, addMemberToTeam);
+  app.get('/teams', getTeams);
+  app.post('/teams', createTeam);
+  app.post('/teams/:teamId/members', addMemberToTeam);
 
   app.get('/api/public', (req, res) => {
     res.json({
