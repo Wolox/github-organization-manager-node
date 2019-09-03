@@ -5,7 +5,7 @@ const {
   addMemberToTeam: addMemberToTeamGithub,
   addCodeownersToRepo: addCodeownersToRepoGithub,
   deleteTeam: deleteTeamGithub,
-  getRepositories
+  getRepositories: getRepositoriesGithub
 } = require('../services/github/repositories');
 const { getTeams: getTeamsGithub, createTeam: createTeamGithub } = require('../services/github/teams');
 const {
@@ -30,7 +30,11 @@ const createRepository = ({ repositoryName, isPrivate }) =>
     execDefaultRepositoryActions({ repositoryName }).then(() => repository)
   );
 
-const getTeams = () => getTeamsGithub().then(resp => ({ teams: resp.data }));
+const getRepositories = (pageNumber, typeOfRepos, perPage) =>
+  getRepositoriesGithub(pageNumber, typeOfRepos, perPage).then(resp => resp);
+
+const getTeams = (perPage, pageNumber) =>
+  getTeamsGithub(perPage, pageNumber).then(resp => ({ teams: resp.data }));
 
 const createTeam = name => createTeamGithub(name).then(resp => resp.data);
 

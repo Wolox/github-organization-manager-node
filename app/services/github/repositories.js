@@ -6,9 +6,9 @@ const { createCommit } = require('./commits');
 const getRepositories = ({ pageNumber, typeOfRepos, perPage }) =>
   org.repos.list({
     org: githubConfig.woloxOrganizationName,
+    type: typeOfRepos,
     per_page: perPage,
-    page: pageNumber,
-    type: typeOfRepos
+    page: pageNumber
   });
 
 const countRepositories = async ({ type }) => {

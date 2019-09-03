@@ -6,38 +6,38 @@ const {
   addUser
 } = require('../interactors/github');
 
-const { createRepositorySerializer, getRepositoriesSerializer } = require('../serializers/respositories');
+const { createRepositorySerializer, getRepositoriesSerializer } = require('../serializers/repositories');
 
 const createRepository = (req, res) =>
   req.body.techs
     ? Promise.all(
         req.body.techs.map(tech =>
-        create({
-          repositoryName: `${req.body.repositoryName}-${tech}`,
-          isPrivate: req.body.isPrivate
-        })
+          create({
+            repositoryName: `${req.body.repositoryName}-${tech}`,
+            isPrivate: req.body.isPrivate
+          })
+        )
       )
-    )
-      .then(responses => res.status(200).send(responses))
-      .catch(err => res.status(500).send(err))
+        .then(responses => res.status(200).send(responses))
+        .catch(err => res.status(500).send(err))
     : create({
-      repositoryName: `${req.body.repositoryName}`,
-      isPrivate: req.body.isPrivate
-    })
-      .then(resp => {
-        const response = createRepositorySerializer(resp);
-        return res.status(response.statusCode).send(response.body);
+        repositoryName: `${req.body.repositoryName}`,
+        isPrivate: req.body.isPrivate
       })
-      .catch(err => res.status(500).send(err));
+        .then(resp => {
+          const response = createRepositorySerializer(resp);
+          return res.status(response.statusCode).send(response.body);
+        })
+        .catch(err => res.status(500).send(err));
 
 const addTeamToRepo = (req, res) =>
   addTeamToRepoGithub(req.body.teamId, req.params.repoName).then(resp => res.send(resp));
 
 const getRepositories = (req, res) =>
   getRepositoriesGithub({
-    pageNumber: req.query.page || 0,
     typeOfRepos: req.query.type || 'all',
-    perPage: req.query.limit || 50
+    perPage: req.query.limit || 50,
+    pageNumber: req.query.page || 0
   }).then(resp => res.send(getRepositoriesSerializer(resp)));
 
 const addCodeownersToRepo = (req, res) =>

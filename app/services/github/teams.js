@@ -1,9 +1,11 @@
 const org = require('./index');
 const { github: githubConfig } = require('../../../config').common;
 
-const getTeams = () =>
+const getTeams = ({ perPage, pageNumber }) =>
   org.teams.list({
-    org: githubConfig.woloxOrganizationName
+    org: githubConfig.woloxOrganizationName,
+    per_page: perPage,
+    page: pageNumber
   });
 
 const createTeam = name =>
