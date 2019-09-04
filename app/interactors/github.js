@@ -34,7 +34,9 @@ const getRepositories = (pageNumber, typeOfRepos, perPage) =>
   getRepositoriesGithub(pageNumber, typeOfRepos, perPage).then(resp => resp);
 
 const getTeams = (perPage, pageNumber) =>
-  getTeamsGithub(perPage, pageNumber).then(resp => ({ teams: resp.data }));
+  getTeamsGithub(perPage, pageNumber).then(resp => ({
+    teams: resp.data.map(({ name, id }) => ({ name, id }))
+  }));
 
 const createTeam = name => createTeamGithub(name).then(resp => resp.data);
 
