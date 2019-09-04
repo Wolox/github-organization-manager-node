@@ -33,12 +33,39 @@ const createRepository = (req, res) =>
 const addTeamToRepo = (req, res) =>
   addTeamToRepoGithub(req.body.teamId, req.params.repoName).then(resp => res.send(resp));
 
-const getRepositories = (req, res) =>
-  getRepositoriesGithub({
+const getAllRepositoriesFunction = async type => {
+  let actualFetch = await getRepositoriesGithub({
+    typeOfRepos: type || 'all',
+    perPage: 100,
+    pageNumber: 1
+  });
+  const fetchAll = actualFetch;
+
+  let pageNumber = 2;
+
+  while (actualFetch.repositories.length === 100) {
+    actualFetch = await getRepositoriesGithub({
+      typeOfRepos: type || 'all',
+      perPage: 100,
+      pageNumber
+    });
+
+    fetchAll.repositories = fetchAll.repositories.concat(actualFetch.repositories);
+    pageNumber++;
+  }
+  return fetchAll;
+};
+
+const getRepositories = (req, res) => {
+  if (!(req.query && req.query.limit) && !(req.query && req.query.page))
+    return getAllRepositoriesFunction().then(resp => res.send(resp));
+
+  return getRepositoriesGithub({
     typeOfRepos: req.query.type || 'all',
     perPage: req.query.limit || 50,
     pageNumber: req.query.page || 0
-  }).then(resp => res.send(getRepositoriesSerializer(resp)));
+  }).then(resp => res.send(resp));
+};
 
 const addCodeownersToRepo = (req, res) =>
   addCodeownersToRepoGithub(req.params.repoName, req.body.codeowners).then(resp => res.send(resp));

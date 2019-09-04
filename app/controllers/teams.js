@@ -26,8 +26,6 @@ const getAllTeamsFunction = async () => {
   return fetchAll;
 };
 
-// const getAllTeams = (req, res) => getAllTeamsFunction().then(resp => res.send(resp));
-
 const getTeams = (req, res) => {
   if (!(req.query && req.query.limit) && !(req.query && req.query.page))
     return getAllTeamsFunction().then(resp => res.send(resp));
