@@ -25,14 +25,14 @@ const createRepository = ({ repositoryName, isPrivate }) =>
   countRepositories({ type: 'private' }).then(count =>
     count < 125
       ? org.repos.createInOrg({
-        auto_init: true,
-        org: githubConfig.woloxOrganizationName,
-        name: repositoryName,
-        private: isPrivate
-      })
+          auto_init: true,
+          org: githubConfig.woloxOrganizationName,
+          name: repositoryName,
+          private: isPrivate
+        })
       : Promise.reject(
-        `No more private repositories can be created: quota limit, current private repos: ${count}`
-      )
+          `No more private repositories can be created: quota limit, current private repos: ${count}`
+        )
   );
 
 const addTeamToRepository = ({ teamId, repositoryName }) =>
@@ -49,17 +49,6 @@ const addDefaultTeamsToRepository = ({ repositoryName }) =>
     addTeamToRepository({ teamId: githubConfig.botsTeamId, repositoryName }),
     addTeamToRepository({ teamId: githubConfig.qualityTeamId, repositoryName })
   ]);
-
-const addMemberToTeam = ({ teamId, username }) =>
-  org.teams.addMember({
-    team_id: teamId,
-    username
-  });
-
-const deleteTeam = ({ teamId }) =>
-  org.teams.delete({
-    team_id: teamId
-  });
 
 const addCodeownersToRepo = ({ repositoryName, codeowners }) => {
   const codeownersFileContent = `*       ${codeowners.map(co => `@${co}`).join(' ')}`;
@@ -81,7 +70,5 @@ module.exports = {
   getRepositories,
   addDefaultTeamsToRepository,
   addTeamToRepository,
-  addMemberToTeam,
-  addCodeownersToRepo,
-  deleteTeam
+  addCodeownersToRepo
 };

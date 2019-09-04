@@ -14,4 +14,15 @@ const createTeam = name =>
     name
   });
 
-module.exports = { getTeams, createTeam };
+const addMemberToTeam = ({ teamId, username }) =>
+  org.teams.addMember({
+    team_id: teamId,
+    username
+  });
+
+const deleteTeam = ({ teamId }) =>
+  org.teams.delete({
+    team_id: teamId
+  });
+
+module.exports = { getTeams, createTeam, addMemberToTeam, deleteTeam };

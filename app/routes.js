@@ -1,12 +1,12 @@
+const { healthCheck } = require('./controllers/healthCheck');
 const {
   createRepository,
   addTeamToRepo,
   getRepositories,
   addCodeownersToRepo,
   addUserToOrganization
-} = require('./controllers/github');
+} = require('./controllers/repositories');
 const { getTeams, createTeam, addMembersToTeam, deleteTeam } = require('./controllers/teams');
-const { healthCheck } = require('./controllers/healthCheck');
 const { getUsersHandler, setUserMaintainerHandler, setUserAdminHandler } = require('./controllers/users.js');
 const checkJwt = require('./middlewares/checkAuth');
 const { adminScope } = require('./middlewares/checkScope');
@@ -16,11 +16,10 @@ exports.init = app => {
 
   app.get('/repositories', getRepositories);
   app.post('/repositories', createRepository);
-  app.post('/organization/:username', addUserToOrganization);
-
   app.post('/repositories/:repoName/teams', addTeamToRepo);
-
   app.post('/repositories/:repoName/codeowners', addCodeownersToRepo);
+
+  app.post('/organization/:username', addUserToOrganization);
 
   app.get('/teams', getTeams);
   app.post('/teams', createTeam);
