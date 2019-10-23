@@ -27,8 +27,9 @@ const getAllTeamsFunction = async () => {
 };
 
 const getTeams = (req, res) => {
-  if (!(req.query && req.query.limit) && !(req.query && req.query.page))
+  if (!(req.query && req.query.limit) && !(req.query && req.query.page)) {
     return getAllTeamsFunction().then(resp => res.send(resp));
+  }
 
   return getTeamsGithub({
     perPage: req.query.limit || 50,
