@@ -30,7 +30,7 @@ const createRepository = ({ repositoryName, isPrivate }) =>
     execDefaultRepositoryActions({ repositoryName }).then(() => repository)
   );
 
-const getTeams = () => getTeamsGithub().then(resp => ({ teams: resp.data }));
+const getTeams = (page, limit) => getTeamsGithub(page, limit).then(resp => ({ teams: resp.data }));
 
 const createTeam = name => createTeamGithub(name).then(resp => resp.data);
 
