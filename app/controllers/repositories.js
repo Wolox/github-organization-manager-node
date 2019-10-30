@@ -1,14 +1,14 @@
 const {
   createRepository: create,
-  addTeamToRepo: addTeamToRepoGithub,
   getRepositories: getRepositoriesGithub,
+  addTeamToRepo: addTeamToRepoGithub,
   addCodeownersToRepo: addCodeownersToRepoGithub,
   addUser
 } = require('../interactors/github');
 
 const { createRepositorySerializer, getRepositoriesSerializer } = require('../serializers/repositories');
 
-const getAllRepositoriesFunction = async type => {
+const getAllOfTheRepositories = async type => {
   let actualFetch = await getRepositoriesGithub({
     typeOfRepos: type || 'all',
     perPage: 100,
@@ -32,12 +32,17 @@ const getAllRepositoriesFunction = async type => {
 };
 
 const getRepositories = (req, res) => {
-  if (!(req.query && req.query.limit) && !(req.query && req.query.page))
-    return getAllRepositoriesFunction().then(resp => res.send(resp));
+  if (
+    !req.query.limit &&
+    !req.query.page &&
+    (req.query && req.query.getall && req.query.getall === true.toString())
+  ) {
+    return getAllOfTheRepositories({ typeOfRepos: req.query.type }).then(resp => res.send(resp));
+  }
 
   return getRepositoriesGithub({
     typeOfRepos: req.query.type || 'all',
-    perPage: req.query.limit || 50,
+    perPage: req.query.limit || 100,
     pageNumber: req.query.page || 0
   }).then(resp => res.send(resp));
 };
@@ -45,19 +50,11 @@ const getRepositories = (req, res) => {
 const createRepository = (req, res) =>
   req.body.techs
     ? Promise.all(
-        req.body.techs.map(tech =>
-          create({
-            repositoryName: `${req.body.repositoryName}-${tech}`,
-            isPrivate: req.body.isPrivate
-          })
-        )
+        create({ repositoryName: `${req.body.repositoryName}-${tech}`, isPrivate: req.body.isPrivate })
       )
         .then(responses => res.status(200).send(responses))
         .catch(err => res.status(500).send(err))
-    : create({
-        repositoryName: `${req.body.repositoryName}`,
-        isPrivate: req.body.isPrivate
-      })
+    : create({ repositoryName: `${req.body.repositoryName}`, isPrivate: req.body.isPrivate })
         .then(resp => {
           const response = createRepositorySerializer(resp);
           return res.status(response.statusCode).send(response.body);

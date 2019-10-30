@@ -1,11 +1,11 @@
 const {
-  getTeams: getTeamsGithub,
   createTeam: createTeamGithub,
+  getTeams: getTeamsGithub,
   addMemberToTeam: addMemberToTeamGithub,
   deleteTeam: deleteTeamGithub
 } = require('../interactors/github');
 
-const getAllTeamsFunction = async () => {
+const getAllOfTheTeams = async () => {
   let actualFetch = await getTeamsGithub({
     perPage: 100,
     pageNumber: 1
@@ -28,7 +28,7 @@ const getAllTeamsFunction = async () => {
 
 const getTeams = (req, res) => {
   if (!(req.query && req.query.limit) && !(req.query && req.query.page)) {
-    return getAllTeamsFunction().then(resp => res.send(resp));
+    return getAllOfTheTeams().then(resp => res.send(resp));
   }
 
   return getTeamsGithub({
