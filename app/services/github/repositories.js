@@ -31,7 +31,9 @@ const createRepository = ({ repositoryName, isPrivate }) =>
           private: isPrivate
         })
       : Promise.reject(
-          `No more private repositories can be created: quota limit, current private repos: ${count}`
+          new Error(
+            `No more private repositories can be created: quota limit, current private repos: ${count}`
+          )
         )
   );
 
