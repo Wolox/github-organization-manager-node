@@ -3,8 +3,7 @@ module.exports = {
     get: {
       tags: ['CRUD operations'],
       description: `Get Repositories:  
-        If you run this endpoint without any query parameter it will show the first page with the 100 first repositories of any type.
-        If you run this endpoint with the query parameter getall=true it will return all the repositories. You can still specify the type.
+        If you run this endpoint without any query parameter it will show the first page with the 100 first repositories of any type.  
         If you run this endpoint with the following query parameters it will show the repositories with pagination.  
         You can pass it 3 parameters:  
         type: Can be one of all, owner, public, private, member. Default: all  
@@ -37,15 +36,6 @@ module.exports = {
           schema: {
             type: 'integer',
             default: 2
-          },
-          required: false
-        },
-        {
-          name: 'getall',
-          in: 'query',
-          schema: {
-            type: 'bool',
-            default: false
           },
           required: false
         }

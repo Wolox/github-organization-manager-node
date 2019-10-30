@@ -8,44 +8,11 @@ const {
 
 const { createRepositorySerializer, getRepositoriesSerializer } = require('../serializers/repositories');
 
-const getAllOfTheRepositories = async type => {
-  let actualFetch = await getRepositoriesGithub({
-    typeOfRepos: type || 'all',
-    perPage: 100,
-    pageNumber: 1
-  });
-  const fetchAll = actualFetch;
-
-  let pageNumber = 2;
-
-  while (actualFetch.repositories.length === 100) {
-    actualFetch = await getRepositoriesGithub({
-      typeOfRepos: type || 'all',
-      perPage: 100,
-      pageNumber
-    });
-
-    fetchAll.repositories = fetchAll.repositories.concat(actualFetch.repositories);
-    pageNumber++;
-  }
-  return fetchAll;
-};
-
-const getRepositories = (req, res) => {
-  if (
-    !req.query.limit &&
-    !req.query.page &&
-    (req.query && req.query.getall && req.query.getall === true.toString())
-  ) {
-    return getAllOfTheRepositories({ typeOfRepos: req.query.type }).then(resp => res.send(resp));
-  }
-
-  return getRepositoriesGithub({
+const getRepositories = (req, res) => getRepositoriesGithub({
     typeOfRepos: req.query.type || 'all',
     perPage: req.query.limit || 100,
     pageNumber: req.query.page || 0
   }).then(resp => res.send(resp));
-};
 
 const createRepository = (req, res) =>
   req.body.techs
