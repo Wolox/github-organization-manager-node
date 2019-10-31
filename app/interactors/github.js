@@ -38,12 +38,6 @@ const createRepository = ({ repositoryName, isPrivate }) =>
     execDefaultRepositoryActions({ repositoryName }).then(() => repository)
   );
 
-const addTeamToRepo = (teamId, repositoryName) =>
-  addTeamToRepository({ teamId, repositoryName }).then(resp => resp.data);
-
-const addCodeownersToRepo = (repositoryName, codeowners) =>
-  addCodeownersToRepoGithub({ repositoryName, codeowners }).then(resp => resp.data);
-
 const getTeams = (perPage, pageNumber) =>
   getTeamsGithub(perPage, pageNumber).then(resp => ({
     teams: resp.data.map(({ name, id }) => ({ name, id }))
@@ -51,8 +45,14 @@ const getTeams = (perPage, pageNumber) =>
 
 const createTeam = name => createTeamGithub(name).then(resp => resp.data);
 
+const addTeamToRepo = (teamId, repositoryName) =>
+  addTeamToRepository({ teamId, repositoryName }).then(resp => resp.data);
+
 const addMemberToTeam = (teamId, username) =>
   addMemberToTeamGithub({ teamId, username }).then(resp => resp.data);
+
+const addCodeownersToRepo = (repositoryName, codeowners) =>
+  addCodeownersToRepoGithub({ repositoryName, codeowners }).then(resp => resp.data);
 
 const deleteTeam = teamId => deleteTeamGithub({ teamId }).then(resp => resp.data);
 
