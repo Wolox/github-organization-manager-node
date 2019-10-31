@@ -6,7 +6,7 @@ const {
   addUser
 } = require('../interactors/github');
 
-const { createRepositorySerializer, getRepositoriesSerializer } = require('../serializers/repositories');
+const { createRepositorySerializer } = require('../serializers/repositories');
 
 const createRepository = (req, res) =>
   req.body.techs
