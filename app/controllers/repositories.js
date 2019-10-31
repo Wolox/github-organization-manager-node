@@ -11,11 +11,19 @@ const { createRepositorySerializer, getRepositoriesSerializer } = require('../se
 const createRepository = (req, res) =>
   req.body.techs
     ? Promise.all(
-        create({ repositoryName: `${req.body.repositoryName}-${tech}`, isPrivate: req.body.isPrivate })
+        req.body.techs.map(tech =>
+          create({
+            repositoryName: `${req.body.repositoryName}-${tech}`,
+            isPrivate: req.body.isPrivate
+          })
+        )
       )
         .then(responses => res.status(200).send(responses))
         .catch(err => res.status(500).send(err))
-    : create({ repositoryName: `${req.body.repositoryName}`, isPrivate: req.body.isPrivate })
+    : create({
+        repositoryName: `${req.body.repositoryName}`,
+        isPrivate: req.body.isPrivate
+      })
         .then(resp => {
           const response = createRepositorySerializer(resp);
           return res.status(response.statusCode).send(response.body);
