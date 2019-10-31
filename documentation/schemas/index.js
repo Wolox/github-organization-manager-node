@@ -1,4 +1,4 @@
-const user = require('./user');
+const user = require('./users');
 
 module.exports = {
   ...user,
