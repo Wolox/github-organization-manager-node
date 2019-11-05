@@ -25,14 +25,14 @@ const createRepository = ({ repositoryName, isPrivate }) =>
   countRepositories({ type: 'private' }).then(count =>
     count < 125
       ? org.repos.createInOrg({
-        auto_init: true,
-        org: githubConfig.woloxOrganizationName,
-        name: repositoryName,
-        private: isPrivate
-      })
+          auto_init: true,
+          org: githubConfig.woloxOrganizationName,
+          name: repositoryName,
+          private: isPrivate
+        })
       : Promise.reject(
-        `No more private repositories can be created: quota limit, current private repos: ${count}`
-      )
+          `No more private repositories can be created: quota limit, current private repos: ${count}`
+        )
   );
 
 const addTeamToRepository = ({ teamId, repositoryName }) =>
