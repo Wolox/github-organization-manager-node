@@ -34,11 +34,7 @@ const addTeamToRepo = (req, res) =>
   addTeamToRepoGithub(req.body.teamId, req.params.repoName).then(resp => res.send(resp));
 
 const getRepositories = (req, res) =>
-  getRepositoriesGithub({
-    typeOfRepos: req.query.type || 'all',
-    perPage: req.query.limit || 100,
-    pageNumber: req.query.page || 0
-  }).then(resp => res.send(resp));
+  getRepositoriesGithub(req.query.type, req.query.page, req.query.limit).then(resp => res.send(resp));
 
 const addCodeownersToRepo = (req, res) =>
   addCodeownersToRepoGithub(req.params.repoName, req.body.codeowners).then(resp => res.send(resp));
