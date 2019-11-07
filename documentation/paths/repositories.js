@@ -6,10 +6,9 @@ module.exports = {
         If you run this endpoint without any query parameter it will show the first page with the 100 first repositories of any type.  
         If you run this endpoint with the following query parameters it will show the repositories with pagination.  
         You can pass it 3 parameters:  
-        type: Can be one of all, owner, public, private, member. Default: all  
-        limit: per page (max 100)  
-        page: Results per page (max 100)
-        Also, if you pass the parameter: getall: true, it will return all of the repositories of the given type.`,
+        type: Can be one of: all, owner, public, private, member. Default: all  
+        limit: per page (max 100). Default: 100  
+        page: Results per page (max 100). Default: 0`,
       operationId: 'getRepositories',
       parameters: [
         {
@@ -57,9 +56,12 @@ module.exports = {
   post: {
     tags: ['CRUD operations'],
     description: `Post Repositories:  
-        It creates a repository, it needs the following parameters:
-        `,
-    operationId: 'getRepositories',
+        It creates a repository, if techs is provided, it will create as many reposiories as techs are passed.  
+        It needs the following parameters:  
+        - repositoryName: the name that the repository will recieve.  
+        - techs: The array of techs.
+        - isPrivate: privacy of the repository (it can be true or false).`,
+    operationId: 'createRepositories',
     parameters: [
       {
         name: 'type',
@@ -91,7 +93,7 @@ module.exports = {
     ],
     responses: {
       200: {
-        description: 'Repositories were obtained',
+        description: 'Repositories were created',
         content: {
           'application/json': {
             schema: {

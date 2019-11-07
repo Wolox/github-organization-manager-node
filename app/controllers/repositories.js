@@ -1,5 +1,5 @@
 const {
-  createRepository: create,
+  createRepository: createRepositoryGithub,
   addTeamToRepo: addTeamToRepoGithub,
   getRepositories: getRepositoriesGithub,
   addCodeownersToRepo: addCodeownersToRepoGithub
@@ -11,7 +11,7 @@ const createRepository = (req, res) =>
   req.body.techs
     ? Promise.all(
         req.body.techs.map(tech =>
-          create({
+          createRepositoryGithub({
             repositoryName: `${req.body.repositoryName}-${tech}`,
             isPrivate: req.body.isPrivate
           })
@@ -19,7 +19,7 @@ const createRepository = (req, res) =>
       )
         .then(responses => res.status(200).send(responses))
         .catch(err => res.status(500).send(err))
-    : create({
+    : createRepositoryGithub({
         repositoryName: `${req.body.repositoryName}`,
         isPrivate: req.body.isPrivate
       })

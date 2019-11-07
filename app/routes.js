@@ -3,9 +3,9 @@ const {
   createRepository,
   addTeamToRepo,
   getRepositories,
-  addCodeownersToRepo,
-  addUserToOrganization
+  addCodeownersToRepo
 } = require('./controllers/repositories');
+const { addUserToOrganization } = require('./controllers/organization');
 const { getTeams, createTeam, addMembersToTeam, deleteTeam } = require('./controllers/teams');
 const { getUsersHandler, setUserMaintainerHandler, setUserAdminHandler } = require('./controllers/users.js');
 const checkJwt = require('./middlewares/checkAuth');

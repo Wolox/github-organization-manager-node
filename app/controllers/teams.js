@@ -3,7 +3,7 @@ const {
   getTeams: getTeamsGithub,
   addMemberToTeam: addMemberToTeamGithub,
   deleteTeam: deleteTeamGithub
-} = require('../interactors/github');
+} = require('../interactors/teams');
 
 const getTeams = (req, res) => getTeamsGithub(req.query.page, req.query.limit).then(resp => res.send(resp));
 const createTeam = (req, res) => createTeamGithub(req.body.name).then(resp => res.send(resp));

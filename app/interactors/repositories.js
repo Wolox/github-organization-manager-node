@@ -1,5 +1,5 @@
 const {
-  createRepository: create,
+  createRepository: createRepositoryGithub,
   addDefaultTeamsToRepository,
   addTeamToRepository,
   addCodeownersToRepo: addCodeownersToRepoGithub,
@@ -27,8 +27,8 @@ const getRepositories = (pageNumber, typeOfRepos, perPage) =>
     repositories: resp.data.map(({ name, id, html_url, full_name }) => ({ name, id, html_url, full_name }))
   }));
 
-const createRepository = ({ repositoryName, isPrivate }) =>
-  create({ repositoryName, isPrivate }).then(repository =>
+const createRepository = (repositoryName, isPrivate) =>
+  createRepositoryGithub({ repositoryName, isPrivate }).then(repository =>
     execDefaultRepositoryActions({ repositoryName }).then(() => repository)
   );
 
