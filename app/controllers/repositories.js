@@ -2,9 +2,8 @@ const {
   createRepository: create,
   addTeamToRepo: addTeamToRepoGithub,
   getRepositories: getRepositoriesGithub,
-  addCodeownersToRepo: addCodeownersToRepoGithub,
-  addUser
-} = require('../interactors/github');
+  addCodeownersToRepo: addCodeownersToRepoGithub
+} = require('../interactors/repositories');
 
 const { createRepositorySerializer } = require('../serializers/repositories');
 
@@ -39,12 +38,9 @@ const getRepositories = (req, res) =>
 const addCodeownersToRepo = (req, res) =>
   addCodeownersToRepoGithub(req.params.repoName, req.body.codeowners).then(resp => res.send(resp));
 
-const addUserToOrganization = (req, res) => addUser(req.params.username).then(resp => res.send(resp));
-
 module.exports = {
   createRepository,
   addTeamToRepo,
   getRepositories,
-  addCodeownersToRepo,
-  addUserToOrganization
+  addCodeownersToRepo
 };
