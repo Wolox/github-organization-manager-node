@@ -35,9 +35,9 @@ const addTeamToRepo = (req, res) =>
 
 const getRepositories = (req, res) =>
   getRepositoriesGithub({
-    pageNumber: req.query.page || 0,
+    pageNumber: req.query.page || 1,
     typeOfRepos: req.query.type || 'all',
-    perPage: req.query.limit || 50
+    perPage: req.query.limit || 100
   }).then(resp => res.send(getRepositoriesSerializer(resp)));
 
 const addCodeownersToRepo = (req, res) =>
