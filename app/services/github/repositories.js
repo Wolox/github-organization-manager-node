@@ -12,6 +12,13 @@ const getRepositories = ({ pageNumber, typeOfRepos, perPage }) =>
     type: typeOfRepos
   });
 
+const searchRepositories = ({ query = '', pageNumber, perPage }) =>
+  org.search.repos({
+    q: `${query} in:name org:${githubConfig.woloxOrganizationName}`,
+    per_page: perPage,
+    page: pageNumber
+  });
+
 const createRepository = ({ repositoryName, isPrivate }) =>
   org.repos.createInOrg({
     auto_init: true,
@@ -64,6 +71,7 @@ const addCodeownersToRepo = ({ repositoryName, codeowners }) => {
 module.exports = {
   createRepository,
   getRepositories,
+  searchRepositories,
   addDefaultTeamsToRepository,
   addTeamToRepository,
   addMemberToTeam,

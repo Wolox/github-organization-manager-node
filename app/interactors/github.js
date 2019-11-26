@@ -5,7 +5,8 @@ const {
   addMemberToTeam: addMemberToTeamGithub,
   addCodeownersToRepo: addCodeownersToRepoGithub,
   deleteTeam: deleteTeamGithub,
-  getRepositories
+  getRepositories,
+  searchRepositories
 } = require('../services/github/repositories');
 const { getTeams: getTeamsGithub, createTeam: createTeamGithub } = require('../services/github/teams');
 const {
@@ -48,6 +49,7 @@ const deleteTeam = teamId => deleteTeamGithub({ teamId }).then(resp => resp.data
 module.exports = {
   createRepository,
   getRepositories,
+  searchRepositories,
   getTeams,
   createTeam,
   addTeamToRepo,
