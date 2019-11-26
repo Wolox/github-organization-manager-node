@@ -43,14 +43,14 @@ const getRepositories = (req, res) =>
     pageNumber: req.query.page || 1,
     typeOfRepos: req.query.type || 'all',
     perPage: req.query.limit || 100
-  }).then(resp => res.send(getRepositoriesSerializer(resp)));
+  }).then(resp => res.send({ data: getRepositoriesSerializer(resp), page: req.query.page }));
 
 const searchRepositories = (req, res) =>
   searchRepositoriesGithub({
     pageNumber: req.query.page || 1,
     query: req.query.query || '',
     perPage: req.query.limit || 100
-  }).then(resp => res.send(getSearchReposSerializer(resp)));
+  }).then(resp => res.send({ data: getSearchReposSerializer(resp), page: req.query.page }));
 
 const addCodeownersToRepo = (req, res) =>
   addCodeownersToRepoGithub(req.params.repoName, req.body.codeowners).then(resp => res.send(resp));
