@@ -1,6 +1,6 @@
 {
   "name": "github-organization-manager-node",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "github manager",
   "engines": {
     "node": "10.14.1",
