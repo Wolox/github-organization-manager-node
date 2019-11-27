@@ -4,7 +4,7 @@ const { github: githubConfig } = require('../../../config').common;
 const getTeams = (page, limit) =>
   org.teams.list({
     org: githubConfig.woloxOrganizationName,
-    page: page || 0,
+    page: page || 1,
     per_page: limit || 100
   });
 

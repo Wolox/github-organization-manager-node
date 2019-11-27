@@ -2,11 +2,16 @@ const {
   createRepository: create,
   addTeamToRepo: addTeamToRepoGithub,
   getRepositories: getRepositoriesGithub,
+  searchRepositories: searchRepositoriesGithub,
   addCodeownersToRepo: addCodeownersToRepoGithub,
   addUser
 } = require('../interactors/github');
 
-const { createRepositorySerializer, getRepositoriesSerializer } = require('../serializers/respositories');
+const {
+  createRepositorySerializer,
+  getRepositoriesSerializer,
+  getSearchReposSerializer
+} = require('../serializers/respositories');
 
 const createRepository = (req, res) =>
   req.body.techs
@@ -35,10 +40,17 @@ const addTeamToRepo = (req, res) =>
 
 const getRepositories = (req, res) =>
   getRepositoriesGithub({
-    pageNumber: req.query.page || 0,
+    pageNumber: req.query.page || 1,
     typeOfRepos: req.query.type || 'all',
-    perPage: req.query.limit || 50
-  }).then(resp => res.send(getRepositoriesSerializer(resp)));
+    perPage: req.query.limit || 100
+  }).then(resp => res.send({ data: getRepositoriesSerializer(resp), page: req.query.page }));
+
+const searchRepositories = (req, res) =>
+  searchRepositoriesGithub({
+    pageNumber: req.query.page || 1,
+    query: req.query.query || '',
+    perPage: req.query.limit || 100
+  }).then(resp => res.send({ data: getSearchReposSerializer(resp), page: req.query.page }));
 
 const addCodeownersToRepo = (req, res) =>
   addCodeownersToRepoGithub(req.params.repoName, req.body.codeowners).then(resp => res.send(resp));
@@ -48,6 +60,7 @@ module.exports = {
   createRepository,
   addTeamToRepo,
   getRepositories,
+  searchRepositories,
   addCodeownersToRepo,
   addUserToOrganization
 };

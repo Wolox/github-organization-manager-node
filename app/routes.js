@@ -2,6 +2,7 @@ const {
   createRepository,
   addTeamToRepo,
   getRepositories,
+  searchRepositories,
   addCodeownersToRepo,
   addUserToOrganization
 } = require('./controllers/github');
@@ -14,6 +15,7 @@ const { adminScope } = require('./middlewares/checkScope');
 exports.init = app => {
   app.get('/health', healthCheck);
 
+  app.get('/search/repositories', searchRepositories);
   app.get('/repositories', getRepositories);
   app.post('/repositories', createRepository);
   app.post('/organization/:username', addUserToOrganization);
