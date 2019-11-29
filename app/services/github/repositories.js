@@ -12,20 +12,43 @@ const getRepositories = ({ pageNumber, typeOfRepos, perPage }) =>
     type: typeOfRepos
   });
 
-const searchRepositories = ({ query = '', pageNumber, perPage }) =>
+const searchRepositories = ({ query = '', pageNumber, perPage, isPrivate = false, isPublic = false }) =>
   org.search.repos({
-    q: `${query} in:name org:${githubConfig.woloxOrganizationName}`,
+    q: `${isPrivate ? 'is:private' : ''} ${isPublic ? 'is:public' : ''} ${query} in:name org:${
+      githubConfig.woloxOrganizationName
+    }`,
     per_page: perPage,
     page: pageNumber
   });
 
-const createRepository = ({ repositoryName, isPrivate }) =>
+const requestCreateRepository = ({ repositoryName, isPrivate }) =>
   org.repos.createInOrg({
     auto_init: true,
     org: githubConfig.woloxOrganizationName,
     name: repositoryName,
     private: isPrivate
   });
+
+const countPrivateRepositories = async () => {
+  const fetch1 = await searchRepositories({ pageNumber: 1, isPrivate: true, perPage: 100 });
+  const fetch2 = await searchRepositories({ pageNumber: 2, isPrivate: true, perPage: 100 });
+
+  const mappedFetch1 = fetch1.data.map(repo => repo.name);
+  const mappedFetch2 = fetch2.data.map(repo => repo.name);
+
+  return mappedFetch1.concat(mappedFetch2).length;
+};
+
+const createRepository = ({ repositoryName, isPrivate }) => {
+  if (isPrivate) {
+    return countPrivateRepositories().then(count =>
+      count < 125
+        ? requestCreateRepository({ repositoryName, isPrivate })
+        : Promise.reject(`No more private repos can be created: quota limit, current private repos: ${count}`)
+    );
+  }
+  return requestCreateRepository({ repositoryName, isPrivate });
+};
 
 const addTeamToRepository = ({ teamId, repositoryName }) =>
   org.teams.addOrUpdateRepo({
