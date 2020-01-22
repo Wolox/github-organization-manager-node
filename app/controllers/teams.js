@@ -7,5 +7,9 @@ const addMembersToTeam = (req, res) =>
   Promise.all(req.body.usernames.map(user => github.addMemberToTeam(req.params.teamId, user))).then(resp =>
     res.send(resp)
   );
+const addMaintainersToTeam = (req, res) =>
+  Promise.all(req.body.usernames.map(user => github.addMaintainerToTeam(req.params.teamId, user))).then(
+    resp => res.send(resp)
+  );
 
-module.exports = { getTeams, createTeam, addMembersToTeam, deleteTeam };
+module.exports = { getTeams, createTeam, addMembersToTeam, addMaintainersToTeam, deleteTeam };
