@@ -71,6 +71,13 @@ const addMemberToTeam = ({ teamId, username }) =>
     username
   });
 
+const addMaintainerToTeam = ({ teamId, username }) =>
+  org.teams.addOrUpdateMembership({
+    team_id: teamId,
+    role: 'maintainer',
+    username
+  });
+
 const deleteTeam = ({ teamId }) =>
   org.teams.delete({
     team_id: teamId
@@ -98,6 +105,7 @@ module.exports = {
   addDefaultTeamsToRepository,
   addTeamToRepository,
   addMemberToTeam,
+  addMaintainerToTeam,
   addCodeownersToRepo,
   deleteTeam
 };

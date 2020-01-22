@@ -2,6 +2,7 @@ const {
   createRepository: create,
   addDefaultTeamsToRepository,
   addTeamToRepository,
+  addMaintainerToTeam: addMaintainerToTeamGithub,
   addMemberToTeam: addMemberToTeamGithub,
   addCodeownersToRepo: addCodeownersToRepoGithub,
   deleteTeam: deleteTeamGithub,
@@ -41,6 +42,9 @@ const addTeamToRepo = (teamId, repositoryName) =>
 const addMemberToTeam = (teamId, username) =>
   addMemberToTeamGithub({ teamId, username }).then(resp => resp.data);
 
+const addMaintainerToTeam = (teamId, username) =>
+  addMaintainerToTeamGithub({ teamId, username }).then(resp => resp.data);
+
 const addCodeownersToRepo = (repositoryName, codeowners) =>
   addCodeownersToRepoGithub({ repositoryName, codeowners }).then(resp => resp.data);
 
@@ -54,6 +58,7 @@ module.exports = {
   createTeam,
   addTeamToRepo,
   addMemberToTeam,
+  addMaintainerToTeam,
   addCodeownersToRepo,
   deleteTeam,
   addUser
