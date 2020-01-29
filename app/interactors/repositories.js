@@ -43,8 +43,8 @@ const addCodeownersToRepo = (repositoryName, codeowners) =>
 
 module.exports = {
   createRepository,
-  searchRepositories,
   getRepositories,
+  searchRepositories,
   addTeamToRepo,
   addCodeownersToRepo,
   addUser
