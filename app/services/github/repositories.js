@@ -3,17 +3,35 @@ const { github: githubConfig } = require('../../../config').common;
 const { MASTER_BRANCH } = require('./branches');
 const { createCommit } = require('./commits');
 
-const getRepositories = (typeOfRepos, page, limit) =>
+const getRepositories = ({ pageNumber, typeOfRepos, perPage }) =>
   org.repos.list({
     org: githubConfig.woloxOrganizationName,
-    type: typeOfRepos || 'all',
-    page: page || 0,
-    per_page: limit || 100
+    per_page: perPage,
+    page: pageNumber,
+    sort: 'created',
+    type: typeOfRepos
   });
 
-const countRepositories = async ({ type }) => {
-  const fetch1 = await getRepositories({ page: '0', type });
-  const fetch2 = await getRepositories({ page: '1', type });
+const searchRepositories = ({ query = '', pageNumber, perPage, isPrivate = false, isPublic = false }) =>
+  org.search.repos({
+    q: `${isPrivate ? 'is:private' : ''} ${isPublic ? 'is:public' : ''} ${query} in:name org:${
+      githubConfig.woloxOrganizationName
+    }`,
+    per_page: perPage,
+    page: pageNumber
+  });
+
+const requestCreateRepository = ({ repositoryName, isPrivate }) =>
+  org.repos.createInOrg({
+    auto_init: true,
+    org: githubConfig.woloxOrganizationName,
+    name: repositoryName,
+    private: isPrivate
+  });
+
+const countPrivateRepositories = async () => {
+  const fetch1 = await searchRepositories({ pageNumber: 1, isPrivate: true, perPage: 100 });
+  const fetch2 = await searchRepositories({ pageNumber: 2, isPrivate: true, perPage: 100 });
 
   const mappedFetch1 = fetch1.data.map(repo => repo.name);
   const mappedFetch2 = fetch2.data.map(repo => repo.name);
@@ -21,21 +39,16 @@ const countRepositories = async ({ type }) => {
   return mappedFetch1.concat(mappedFetch2).length;
 };
 
-const createRepository = ({ repositoryName, isPrivate }) =>
-  countRepositories({ type: 'private' }).then(count =>
-    count < 125
-      ? org.repos.createInOrg({
-          auto_init: true,
-          org: githubConfig.woloxOrganizationName,
-          name: repositoryName,
-          private: isPrivate
-        })
-      : Promise.reject(
-          new Error(
-            `No more private repositories can be created: quota limit, current private repos: ${count}`
-          )
-        )
-  );
+const createRepository = ({ repositoryName, isPrivate }) => {
+  if (isPrivate) {
+    return countPrivateRepositories().then(count =>
+      count < 125
+        ? requestCreateRepository({ repositoryName, isPrivate })
+        : Promise.reject(`No more private repos can be created: quota limit, current private repos: ${count}`)
+    );
+  }
+  return requestCreateRepository({ repositoryName, isPrivate });
+};
 
 const addTeamToRepository = ({ teamId, repositoryName }) =>
   org.teams.addOrUpdateRepo({
@@ -70,6 +83,7 @@ const addCodeownersToRepo = ({ repositoryName, codeowners }) => {
 module.exports = {
   createRepository,
   getRepositories,
+  searchRepositories,
   addDefaultTeamsToRepository,
   addTeamToRepository,
   addCodeownersToRepo

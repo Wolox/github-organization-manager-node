@@ -3,7 +3,8 @@ const {
   addDefaultTeamsToRepository,
   addTeamToRepository,
   addCodeownersToRepo: addCodeownersToRepoGithub,
-  getRepositories: getRepositoriesGithub
+  getRepositories: getRepositoriesGithub,
+  searchRepositories
 } = require('../services/github/repositories');
 
 const {
@@ -13,6 +14,8 @@ const {
   DEVELOPMENT_BRANCH,
   STAGE_BRANCH
 } = require('../services/github/branches');
+
+const { addUser } = require('../services/github/organization');
 
 const execDefaultRepositoryActions = ({ repositoryName }) =>
   Promise.all([
@@ -40,7 +43,9 @@ const addCodeownersToRepo = (repositoryName, codeowners) =>
 
 module.exports = {
   createRepository,
+  searchRepositories,
   getRepositories,
   addTeamToRepo,
-  addCodeownersToRepo
+  addCodeownersToRepo,
+  addUser
 };

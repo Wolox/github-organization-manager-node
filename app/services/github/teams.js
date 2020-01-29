@@ -4,7 +4,7 @@ const { github: githubConfig } = require('../../../config').common;
 const getTeams = (page, limit) =>
   org.teams.list({
     org: githubConfig.woloxOrganizationName,
-    page: page || 0,
+    page: page || 1,
     per_page: limit || 100
   });
 
@@ -20,9 +20,16 @@ const addMemberToTeam = ({ teamId, username }) =>
     username
   });
 
+const addMaintainerToTeam = ({ teamId, username }) =>
+  org.teams.addOrUpdateMembership({
+    team_id: teamId,
+    role: 'maintainer',
+    username
+  });
+
 const deleteTeam = ({ teamId }) =>
   org.teams.delete({
     team_id: teamId
   });
 
-module.exports = { getTeams, createTeam, addMemberToTeam, deleteTeam };
+module.exports = { getTeams, createTeam, addMemberToTeam, addMaintainerToTeam, deleteTeam };
