@@ -5,7 +5,7 @@ const {
   searchRepositories: searchRepositoriesGithub,
   addCodeownersToRepo: addCodeownersToRepoGithub,
   addUser
-} = require('../interactors/github');
+} = require('../interactors/repositories');
 
 const {
   createRepositorySerializer,
