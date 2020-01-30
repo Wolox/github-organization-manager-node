@@ -3,8 +3,7 @@ const {
   addTeamToRepo: addTeamToRepoGithub,
   getRepositories: getRepositoriesGithub,
   searchRepositories: searchRepositoriesGithub,
-  addCodeownersToRepo: addCodeownersToRepoGithub,
-  addUser
+  addCodeownersToRepo: addCodeownersToRepoGithub
 } = require('../interactors/repositories');
 
 const {
@@ -55,13 +54,10 @@ const searchRepositories = (req, res) =>
 const addCodeownersToRepo = (req, res) =>
   addCodeownersToRepoGithub(req.params.repoName, req.body.codeowners).then(resp => res.send(resp));
 
-const addUserToOrganization = (req, res) => addUser(req.params.username).then(resp => res.send(resp));
-
 module.exports = {
   createRepository,
   addTeamToRepo,
   getRepositories,
   searchRepositories,
-  addCodeownersToRepo,
-  addUserToOrganization
+  addCodeownersToRepo
 };

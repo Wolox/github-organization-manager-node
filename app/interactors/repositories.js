@@ -15,8 +15,6 @@ const {
   STAGE_BRANCH
 } = require('../services/github/branches');
 
-const { addUser } = require('../services/github/organization');
-
 const execDefaultRepositoryActions = ({ repositoryName }) =>
   Promise.all([
     addDefaultTeamsToRepository({ repositoryName }),
@@ -41,6 +39,5 @@ module.exports = {
   getRepositories,
   searchRepositories,
   addTeamToRepo,
-  addCodeownersToRepo,
-  addUser
+  addCodeownersToRepo
 };
