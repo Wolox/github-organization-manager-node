@@ -3,7 +3,7 @@ const {
   addDefaultTeamsToRepository,
   addTeamToRepository,
   addCodeownersToRepo: addCodeownersToRepoGithub,
-  getRepositories: getRepositoriesGithub,
+  getRepositories,
   searchRepositories
 } = require('../services/github/repositories');
 
@@ -24,11 +24,6 @@ const execDefaultRepositoryActions = ({ repositoryName }) =>
     createBranchFromMaster({ repositoryName, ...STAGE_BRANCH }),
     updateBranchProtection({ repositoryName, ...MASTER_BRANCH })
   ]);
-
-const getRepositories = (pageNumber, typeOfRepos, perPage) =>
-  getRepositoriesGithub(pageNumber, typeOfRepos, perPage).then(resp => ({
-    repositories: resp.data.map(({ name, id, html_url, full_name }) => ({ name, id, html_url, full_name }))
-  }));
 
 const createRepository = (repositoryName, isPrivate) =>
   createRepositoryGithub({ repositoryName, isPrivate }).then(repository =>

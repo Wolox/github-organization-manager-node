@@ -1,13 +1,10 @@
 const {
-  getTeams: getTeamsGithub,
+  getTeams,
   createTeam: createTeamGithub,
   addMemberToTeam: addMemberToTeamGithub,
   addMaintainerToTeam: addMaintainerToTeamGithub,
   deleteTeam: deleteTeamGithub
 } = require('../services/github/teams');
-
-const getTeams = (page, limit) =>
-  getTeamsGithub(page, limit).then(resp => ({ teams: resp.data.map(({ name, id }) => ({ name, id })) }));
 
 const createTeam = name => createTeamGithub(name).then(resp => resp.data);
 

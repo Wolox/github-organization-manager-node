@@ -7,8 +7,8 @@ module.exports = {
         If you run this endpoint with the following query parameters it will show the repositories with pagination.  
         You can pass it 3 parameters:  
         type: Can be one of: all, owner, public, private, member. Default: all  
-        limit: per page (max 100). Default: 100  
-        page: Results per page (max 100). Default: 0`,
+        limit: Results per page (max 100). Default: 100  
+        page: Number of page to be retrieved. Default: 1`,
       operationId: 'getRepositories',
       parameters: [
         {
@@ -34,7 +34,7 @@ module.exports = {
           in: 'query',
           schema: {
             type: 'integer',
-            default: 2
+            default: 1
           },
           required: false
         }
@@ -56,7 +56,7 @@ module.exports = {
   post: {
     tags: ['CRUD operations'],
     description: `Post Repositories:  
-        It creates a repository, if techs is provided, it will create as many reposiories as techs are passed.  
+        It creates a repository, if techs are provided, it will create as many reposiories as techs are passed.  
         It needs the following parameters:  
         - repositoryName: the name that the repository will recieve.  
         - techs: The array of techs.
