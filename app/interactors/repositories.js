@@ -23,7 +23,7 @@ const execDefaultRepositoryActions = ({ repositoryName }) =>
     updateBranchProtection({ repositoryName, ...MASTER_BRANCH })
   ]);
 
-const createRepository = (repositoryName, isPrivate) =>
+const createRepository = ({ repositoryName, isPrivate }) =>
   createRepositoryGithub({ repositoryName, isPrivate }).then(repository =>
     execDefaultRepositoryActions({ repositoryName }).then(() => repository)
   );
