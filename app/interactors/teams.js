@@ -6,15 +6,13 @@ const {
   deleteTeam: deleteTeamGithub
 } = require('../services/github/teams');
 
-const createTeam = name => createTeamGithub(name).then(resp => resp.data);
+const createTeam = name => createTeamGithub(name);
 
-const addMemberToTeam = (teamId, username) =>
-  addMemberToTeamGithub({ teamId, username }).then(resp => resp.data);
+const addMemberToTeam = (teamId, username) => addMemberToTeamGithub({ teamId, username });
 
-const addMaintainerToTeam = (teamId, username) =>
-  addMaintainerToTeamGithub({ teamId, username }).then(resp => resp.data);
+const addMaintainerToTeam = (teamId, username) => addMaintainerToTeamGithub({ teamId, username });
 
-const deleteTeam = teamId => deleteTeamGithub({ teamId }).then(resp => resp.data);
+const deleteTeam = teamId => deleteTeamGithub({ teamId });
 
 module.exports = {
   getTeams,

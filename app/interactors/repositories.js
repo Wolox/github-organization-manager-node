@@ -28,11 +28,10 @@ const createRepository = ({ repositoryName, isPrivate }) =>
     execDefaultRepositoryActions({ repositoryName }).then(() => repository)
   );
 
-const addTeamToRepo = (teamId, repositoryName) =>
-  addTeamToRepository({ teamId, repositoryName }).then(resp => resp.data);
+const addTeamToRepo = (teamId, repositoryName) => addTeamToRepository({ teamId, repositoryName });
 
 const addCodeownersToRepo = (repositoryName, codeowners) =>
-  addCodeownersToRepoGithub({ repositoryName, codeowners }).then(resp => resp.data);
+  addCodeownersToRepoGithub({ repositoryName, codeowners });
 
 module.exports = {
   createRepository,

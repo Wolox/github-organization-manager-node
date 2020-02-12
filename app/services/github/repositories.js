@@ -51,12 +51,14 @@ const createRepository = ({ repositoryName, isPrivate }) => {
 };
 
 const addTeamToRepository = ({ teamId, repositoryName }) =>
-  org.teams.addOrUpdateRepo({
-    team_id: teamId,
-    owner: githubConfig.woloxOrganizationName,
-    repo: repositoryName,
-    permission: 'admin'
-  });
+  org.teams
+    .addOrUpdateRepo({
+      team_id: teamId,
+      owner: githubConfig.woloxOrganizationName,
+      repo: repositoryName,
+      permission: 'admin'
+    })
+    .then(resp => resp.data);
 
 const addDefaultTeamsToRepository = ({ repositoryName }) =>
   Promise.all([
@@ -77,7 +79,7 @@ const addCodeownersToRepo = ({ repositoryName, codeowners }) => {
     repositoryName,
     base: MASTER_BRANCH.branchName,
     changes
-  });
+  }).then(resp => resp.data);
 };
 
 module.exports = {
