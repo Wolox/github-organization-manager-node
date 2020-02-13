@@ -2,6 +2,11 @@
 
 This project adheres to [Semantic Versioning](http://semver.org/).
 
+
+## Next version
+
+* Change authentication method for app instead of personal token.
+
 ## 0.1.0
 
 * Changelog added.
