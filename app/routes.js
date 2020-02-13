@@ -1,11 +1,12 @@
+const { healthCheck } = require('./controllers/healthCheck');
 const {
   createRepository,
   addTeamToRepo,
   getRepositories,
   searchRepositories,
-  addCodeownersToRepo,
-  addUserToOrganization
-} = require('./controllers/github');
+  addCodeownersToRepo
+} = require('./controllers/repositories');
+const { addUserToOrganization } = require('./controllers/organization');
 const {
   getTeams,
   createTeam,
@@ -13,7 +14,7 @@ const {
   addMaintainersToTeam,
   deleteTeam
 } = require('./controllers/teams');
-const { healthCheck } = require('./controllers/healthCheck');
+
 const { getUsersHandler, setUserMaintainerHandler, setUserAdminHandler } = require('./controllers/users.js');
 const checkJwt = require('./middlewares/checkAuth');
 const checkPerms = require('./middlewares/checkPerms');
@@ -23,7 +24,6 @@ exports.init = app => {
 
   app.get('/search/repositories', checkJwt, searchRepositories);
   app.get('/repositories', checkJwt, getRepositories);
-
   app.post('/repositories', checkJwt, checkPerms(['create:repo']), createRepository);
   app.post('/repositories/:repoName/teams', checkJwt, checkPerms(['create:repo']), addTeamToRepo);
   app.post('/repositories/:repoName/codeowners', checkJwt, checkPerms(['create:repo']), addCodeownersToRepo);

@@ -51,12 +51,14 @@ const createRepository = ({ repositoryName, isPrivate }) => {
 };
 
 const addTeamToRepository = ({ teamId, repositoryName }) =>
-  org.teams.addOrUpdateRepo({
-    team_id: teamId,
-    owner: githubConfig.woloxOrganizationName,
-    repo: repositoryName,
-    permission: 'admin'
-  });
+  org.teams
+    .addOrUpdateRepo({
+      team_id: teamId,
+      owner: githubConfig.woloxOrganizationName,
+      repo: repositoryName,
+      permission: 'admin'
+    })
+    .then(resp => resp.data);
 
 const addDefaultTeamsToRepository = ({ repositoryName }) =>
   Promise.all([
@@ -64,24 +66,6 @@ const addDefaultTeamsToRepository = ({ repositoryName }) =>
     addTeamToRepository({ teamId: githubConfig.botsTeamId, repositoryName }),
     addTeamToRepository({ teamId: githubConfig.qualityTeamId, repositoryName })
   ]);
-
-const addMemberToTeam = ({ teamId, username }) =>
-  org.teams.addMember({
-    team_id: teamId,
-    username
-  });
-
-const addMaintainerToTeam = ({ teamId, username }) =>
-  org.teams.addOrUpdateMembership({
-    team_id: teamId,
-    role: 'maintainer',
-    username
-  });
-
-const deleteTeam = ({ teamId }) =>
-  org.teams.delete({
-    team_id: teamId
-  });
 
 const addCodeownersToRepo = ({ repositoryName, codeowners }) => {
   const codeownersFileContent = `*       ${codeowners.map(co => `@${co}`).join(' ')}`;
@@ -95,7 +79,7 @@ const addCodeownersToRepo = ({ repositoryName, codeowners }) => {
     repositoryName,
     base: MASTER_BRANCH.branchName,
     changes
-  });
+  }).then(resp => resp.data);
 };
 
 module.exports = {
@@ -104,8 +88,5 @@ module.exports = {
   searchRepositories,
   addDefaultTeamsToRepository,
   addTeamToRepository,
-  addMemberToTeam,
-  addMaintainerToTeam,
-  addCodeownersToRepo,
-  deleteTeam
+  addCodeownersToRepo
 };

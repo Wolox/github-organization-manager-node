@@ -7,7 +7,7 @@ const port = config.common.api.port || 8080;
 module.exports = {
   openapi: '3.0.1',
   info: {
-    version: '0.1.0',
+    version: '0.2.0',
     title: 'github-organization-manager-node',
     description: 'github manager',
     termsOfService: '',

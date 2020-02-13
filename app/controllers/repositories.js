@@ -1,23 +1,22 @@
 const {
-  createRepository: create,
+  createRepository: createRepositoryGithub,
   addTeamToRepo: addTeamToRepoGithub,
   getRepositories: getRepositoriesGithub,
   searchRepositories: searchRepositoriesGithub,
-  addCodeownersToRepo: addCodeownersToRepoGithub,
-  addUser
-} = require('../interactors/github');
+  addCodeownersToRepo: addCodeownersToRepoGithub
+} = require('../interactors/repositories');
 
 const {
   createRepositorySerializer,
   getRepositoriesSerializer,
   getSearchReposSerializer
-} = require('../serializers/respositories');
+} = require('../serializers/repositories');
 
 const createRepository = (req, res) =>
   req.body.techs
     ? Promise.all(
         req.body.techs.map(tech =>
-          create({
+          createRepositoryGithub({
             repositoryName: `${req.body.repositoryName}-${tech}`,
             isPrivate: req.body.isPrivate
           })
@@ -25,7 +24,7 @@ const createRepository = (req, res) =>
       )
         .then(responses => res.status(200).send(responses))
         .catch(err => res.status(500).send(err))
-    : create({
+    : createRepositoryGithub({
         repositoryName: `${req.body.repositoryName}`,
         isPrivate: req.body.isPrivate
       })
@@ -55,12 +54,10 @@ const searchRepositories = (req, res) =>
 const addCodeownersToRepo = (req, res) =>
   addCodeownersToRepoGithub(req.params.repoName, req.body.codeowners).then(resp => res.send(resp));
 
-const addUserToOrganization = (req, res) => addUser(req.params.username).then(resp => res.send(resp));
 module.exports = {
   createRepository,
   addTeamToRepo,
   getRepositories,
   searchRepositories,
-  addCodeownersToRepo,
-  addUserToOrganization
+  addCodeownersToRepo
 };
