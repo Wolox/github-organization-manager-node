@@ -45,7 +45,9 @@ const config = {
       nodeVersion: process.env.NODE_VERSION || 'X-Node-Version'
     },
     github: {
-      woloxAdminToken: process.env.WOLOX_ADMIN_TOKEN,
+      woloxInstallationId: process.env.WOLOX_INSTALLATION_ID,
+      appPrivateKey: process.env.GITHUB_APP_PRIVATE_KEY,
+      appId: process.env.GITHUB_APP_ID,
       woloxOrganizationName: process.env.WOLOX_ORGANIZATION_NAME || 'Wolox',
       tlsTeamId: process.env.TECHNICAL_LEADERS_TEAM_ID,
       botsTeamId: process.env.BOTS_TEAM_ID,
