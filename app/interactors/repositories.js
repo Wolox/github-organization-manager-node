@@ -15,6 +15,8 @@ const {
   STAGE_BRANCH
 } = require('../services/github/branches');
 
+const { sendRawEmail } = require('../services/mailer/rawEmail');
+
 const execDefaultRepositoryActions = ({ repositoryName }) =>
   Promise.all([
     addDefaultTeamsToRepository({ repositoryName }),
@@ -24,8 +26,15 @@ const execDefaultRepositoryActions = ({ repositoryName }) =>
   ]);
 
 const createRepository = ({ repositoryName, isPrivate }) =>
-  createRepositoryGithub({ repositoryName, isPrivate }).then(repository =>
-    execDefaultRepositoryActions({ repositoryName }).then(() => repository)
+  createRepositoryGithub({ repositoryName, isPrivate }).then(({ repository, quotaLeft }) =>
+    execDefaultRepositoryActions({ repositoryName })
+      .then(() => {
+        const lowQuota = quotaLeft <= lowQuotaThreshold;
+        if (isPrivate && lowQuota) {
+          sendRawEmail({ body: '', subject: '', to: '' });
+        }
+      })
+      .then(() => repository)
   );
 
 const addTeamToRepo = (teamId, repositoryName) => addTeamToRepository({ teamId, repositoryName });

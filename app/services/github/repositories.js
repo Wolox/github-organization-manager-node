@@ -41,13 +41,19 @@ const countPrivateRepositories = async () => {
 
 const createRepository = ({ repositoryName, isPrivate }) => {
   if (isPrivate) {
-    return countPrivateRepositories().then(count =>
-      count < 125
-        ? requestCreateRepository({ repositoryName, isPrivate })
-        : Promise.reject(`No more private repos can be created: quota limit, current private repos: ${count}`)
-    );
+    return countPrivateRepositories().then(repositoryCount => {
+      if (repositoryCount < githubConfig.privateReposQuota) {
+        return requestCreateRepository({ repositoryName, isPrivate }).then(repository => ({
+          repository,
+          quotaLeft: githubConfig.privateReposQuota - repositoryCount
+        }));
+      }
+      return Promise.reject(
+        `No more private repos can be created: quota limit, current private repos: ${repositoryCount}`
+      );
+    });
   }
-  return requestCreateRepository({ repositoryName, isPrivate });
+  return requestCreateRepository({ repositoryName, isPrivate }).then(repository => ({ repository }));
 };
 
 const addTeamToRepository = ({ teamId, repositoryName }) =>
