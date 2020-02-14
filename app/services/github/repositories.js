@@ -42,10 +42,10 @@ const countPrivateRepositories = async () => {
 const createRepository = ({ repositoryName, isPrivate }) => {
   if (isPrivate) {
     return countPrivateRepositories().then(repositoryCount => {
-      if (repositoryCount < githubConfig.privateReposQuota) {
+      if (repositoryCount < githubConfig.privateRepositoriesQuota) {
         return requestCreateRepository({ repositoryName, isPrivate }).then(repository => ({
           repository,
-          quotaLeft: githubConfig.privateReposQuota - repositoryCount
+          quotaLeft: githubConfig.privateRepositoriesQuota - repositoryCount
         }));
       }
       return Promise.reject(

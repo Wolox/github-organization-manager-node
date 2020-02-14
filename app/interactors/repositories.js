@@ -17,6 +17,8 @@ const {
 
 const { sendRawEmail } = require('../services/mailer/rawEmail');
 
+const { email: emailConfig, github: githubConfig } = require('../../config').common;
+
 const execDefaultRepositoryActions = ({ repositoryName }) =>
   Promise.all([
     addDefaultTeamsToRepository({ repositoryName }),
@@ -25,13 +27,20 @@ const execDefaultRepositoryActions = ({ repositoryName }) =>
     updateBranchProtection({ repositoryName, ...MASTER_BRANCH })
   ]);
 
+const sendEmailLowQuota = quotaLeft =>
+  sendRawEmail({
+    body: `${githubConfig.woloxOrganizationName} has ${quotaLeft} private repositories remaining in the organization quota`,
+    subject: '[GOM] - Private Repositories Quota is Low',
+    to: emailConfig.lowQuotaEmails
+  });
+
 const createRepository = ({ repositoryName, isPrivate }) =>
   createRepositoryGithub({ repositoryName, isPrivate }).then(({ repository, quotaLeft }) =>
     execDefaultRepositoryActions({ repositoryName })
       .then(() => {
-        const lowQuota = quotaLeft <= lowQuotaThreshold;
+        const lowQuota = quotaLeft === githubConfig.lowQuotaRepositoriesCount;
         if (isPrivate && lowQuota) {
-          sendRawEmail({ body: '', subject: '', to: '' });
+          sendEmailLowQuota(quotaLeft);
         }
       })
       .then(() => repository)

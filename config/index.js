@@ -53,7 +53,13 @@ const config = {
       botsTeamId: process.env.BOTS_TEAM_ID,
       qualityTeamId: process.env.QUALITY_TEAM_ID,
       developmentBranchName: process.env.DEVELOPMENT_BRANCH_NAME || 'development',
-      stageBranchName: process.env.STAGE_BRANACH_NAME || 'stage'
+      stageBranchName: process.env.STAGE_BRANCH_NAME || 'stage',
+      lowQuotaRepositoriesCount: parseInt(process.env.LOW_QUOTA_REPOSITORIES_COUNT || 10),
+      privateRepositoriesQuota: parseInt(process.env.PRIVATE_REPOSITORIES_QUOTA || 125)
+    },
+    email: {
+      lowQuotaEmails: process.env.LOW_QUOTA_EMAILS,
+      sendGridApiKey: process.env.SEND_GRID_API_KEY
     }
   }
 };
