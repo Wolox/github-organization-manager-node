@@ -46,7 +46,7 @@ const config = {
     },
     github: {
       woloxInstallationId: process.env.WOLOX_INSTALLATION_ID,
-      appPrivateKey: process.env.GITHUB_APP_PRIVATE_KEY,
+      appPrivateKey: process.env.GITHUB_APP_PRIVATE_KEY.replace(/\\n/g, '\n'),
       appId: process.env.GITHUB_APP_ID,
       woloxOrganizationName: process.env.WOLOX_ORGANIZATION_NAME || 'Wolox',
       tlsTeamId: process.env.TECHNICAL_LEADERS_TEAM_ID,
@@ -59,7 +59,8 @@ const config = {
     },
     email: {
       lowQuotaEmails: process.env.LOW_QUOTA_EMAILS,
-      sendGridApiKey: process.env.SEND_GRID_API_KEY
+      sendGridApiKey: process.env.SEND_GRID_API_KEY,
+      fromAddress: process.env.EMAIL_FROM_ADDRESS || 'om@no-reply.com'
     }
   }
 };

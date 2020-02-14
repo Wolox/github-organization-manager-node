@@ -19,7 +19,7 @@
     "outdated": "npm outdated --depth 0",
     "pretest": "npm run lint",
     "start": "node server.js",
-    "startDev": "nodemon --inspect server.js"
+    "start-dev": "nodemon --inspect server.js"
   },
   "cacheDirectories": [
     "node_modules"

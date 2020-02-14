@@ -31,7 +31,7 @@ const sendEmailLowQuota = quotaLeft =>
   sendRawEmail({
     body: `${githubConfig.woloxOrganizationName} has ${quotaLeft} private repositories remaining in the organization quota`,
     subject: '[GOM] - Private Repositories Quota is Low',
-    to: emailConfig.lowQuotaEmails
+    to: emailConfig.lowQuotaEmails.split(',').map(email => ({ email }))
   });
 
 const createRepository = ({ repositoryName, isPrivate }) =>

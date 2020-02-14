@@ -4,7 +4,7 @@ const { MASTER_BRANCH } = require('./branches');
 const { createCommit } = require('./commits');
 
 const getRepositories = ({ pageNumber, typeOfRepos, perPage }) =>
-  org.repos.list({
+  org.repos.listForOrg({
     org: githubConfig.woloxOrganizationName,
     per_page: perPage,
     page: pageNumber,
@@ -53,7 +53,9 @@ const createRepository = ({ repositoryName, isPrivate }) => {
       );
     });
   }
-  return requestCreateRepository({ repositoryName, isPrivate }).then(repository => ({ repository }));
+  return requestCreateRepository({ repositoryName, isPrivate }).then(repository => ({
+    repository
+  }));
 };
 
 const addTeamToRepository = ({ teamId, repositoryName }) =>
