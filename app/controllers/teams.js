@@ -10,7 +10,7 @@ const { getTeamsSerializer } = require('../serializers/teams');
 
 const getTeams = (req, res) =>
   getTeamsGithub(req.query.page, req.query.limit).then(resp =>
-    res.send({ data: getTeamsSerializer(resp), page: req.query.page })
+    res.send({ teams: getTeamsSerializer(resp), page: req.query.page })
   );
 const createTeam = (req, res) => createTeamGithub(req.body.name).then(resp => res.send(resp));
 const deleteTeam = (req, res) => deleteTeamGithub(req.params.teamId).then(resp => res.send(resp));

@@ -19,7 +19,7 @@
     "outdated": "npm outdated --depth 0",
     "pretest": "npm run lint",
     "start": "node server.js",
-    "startDev": "nodemon --inspect server.js"
+    "start-dev": "nodemon --inspect server.js"
   },
   "cacheDirectories": [
     "node_modules"
@@ -60,7 +60,9 @@
     }
   },
   "dependencies": {
-    "@octokit/rest": "^16.33.1",
+    "@octokit/auth-app": "^2.4.2",
+    "@octokit/rest": "^16.43.1",
+    "@sendgrid/mail": "^6.5.2",
     "auth0": "^2.20.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",

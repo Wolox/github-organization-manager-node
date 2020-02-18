@@ -4,7 +4,7 @@ const { MASTER_BRANCH } = require('./branches');
 const { createCommit } = require('./commits');
 
 const getRepositories = ({ pageNumber, typeOfRepos, perPage }) =>
-  org.repos.list({
+  org.repos.listForOrg({
     org: githubConfig.woloxOrganizationName,
     per_page: perPage,
     page: pageNumber,
@@ -41,13 +41,21 @@ const countPrivateRepositories = async () => {
 
 const createRepository = ({ repositoryName, isPrivate }) => {
   if (isPrivate) {
-    return countPrivateRepositories().then(count =>
-      count < 125
-        ? requestCreateRepository({ repositoryName, isPrivate })
-        : Promise.reject(`No more private repos can be created: quota limit, current private repos: ${count}`)
-    );
+    return countPrivateRepositories().then(repositoryCount => {
+      if (repositoryCount < githubConfig.privateRepositoriesQuota) {
+        return requestCreateRepository({ repositoryName, isPrivate }).then(repository => ({
+          repository,
+          quotaLeft: githubConfig.privateRepositoriesQuota - repositoryCount
+        }));
+      }
+      return Promise.reject(
+        `No more private repos can be created: quota limit, current private repos: ${repositoryCount}`
+      );
+    });
   }
-  return requestCreateRepository({ repositoryName, isPrivate });
+  return requestCreateRepository({ repositoryName, isPrivate }).then(repository => ({
+    repository
+  }));
 };
 
 const addTeamToRepository = ({ teamId, repositoryName }) =>
