@@ -30,13 +30,8 @@ const requestCreateRepository = ({ repositoryName, isPrivate }) =>
   });
 
 const countPrivateRepositories = async () => {
-  const fetch1 = await searchRepositories({ pageNumber: 1, isPrivate: true, perPage: 100 });
-  const fetch2 = await searchRepositories({ pageNumber: 2, isPrivate: true, perPage: 100 });
-
-  const mappedFetch1 = fetch1.data.map(repo => repo.name);
-  const mappedFetch2 = fetch2.data.map(repo => repo.name);
-
-  return mappedFetch1.concat(mappedFetch2).length;
+  const privateRepositories = await searchRepositories({ pageNumber: 1, isPrivate: true, perPage: 100 });
+  return privateRepositories.data.total_count;
 };
 
 const createRepository = ({ repositoryName, isPrivate }) => {
