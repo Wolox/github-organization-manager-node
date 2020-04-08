@@ -24,7 +24,7 @@ exports.init = app => {
 
   app.get('/search/repositories', checkJwt, searchRepositories);
   app.get('/repositories', checkJwt, getRepositories);
-  app.post('/repositories', checkJwt, checkPerms(['create:repo']), createRepository);
+  app.post('/repositories', createRepository);
   app.post('/repositories/:repoName/teams', checkJwt, checkPerms(['create:repo']), addTeamToRepo);
   app.post('/repositories/:repoName/codeowners', checkJwt, checkPerms(['create:repo']), addCodeownersToRepo);
 

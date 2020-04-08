@@ -23,7 +23,7 @@ const createRepository = (req, res) =>
         )
       )
         .then(responses => res.status(200).send(responses))
-        .catch(err => res.status(500).send(err))
+        .catch(err => res.status(err.status || 500).send(err))
     : createRepositoryGithub({
         repositoryName: `${req.body.repositoryName}`,
         isPrivate: req.body.isPrivate
@@ -32,7 +32,7 @@ const createRepository = (req, res) =>
           const response = createRepositorySerializer(resp);
           return res.status(response.statusCode).send(response.body);
         })
-        .catch(err => res.status(500).send(err));
+        .catch(err => res.status(err.status || 500).send(err));
 
 const addTeamToRepo = (req, res) =>
   addTeamToRepoGithub(req.body.teamId, req.params.repoName).then(resp => res.send(resp));
